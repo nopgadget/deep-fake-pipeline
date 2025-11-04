@@ -94,7 +94,7 @@ By using this deepfake pipeline, you agree to:
 
 2. **Clone this repository:**
 ```bash
-git clone https://github.com/nopgadget/deep-fake-pipeline
+git clone --recurse-submodules https://github.com/nopgadget/deep-fake-pipeline
 cd deep-fake-pipeline
 ```
 
