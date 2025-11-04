@@ -1,0 +1,9 @@
+[submodule "Deep-Live-Cam"]
+	path = Deep-Live-Cam
+	url = https://github.com/nopgadget/Deep-Live-Cam
+[submodule "video-voice-surgeon"]
+	path = video-voice-surgeon
+	url = https://github.com/nopgadget/video-voice-surgeon
+[submodule "seed-vc"]
+	path = seed-vc
+	url = https://github.com/nopgadget/seed-vc
