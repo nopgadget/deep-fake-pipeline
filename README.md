@@ -2,13 +2,13 @@
 
 A comprehensive toolkit for creating real-time deepfakes by combining face swapping and voice cloning technologies. This pipeline integrates multiple state-of-the-art tools to enable full audiovisual transformations.
 
-> ⚠️ **IMPORTANT ETHICAL NOTICE**: This software is intended for educational, research, and legitimate creative purposes only. Misuse of deepfake technology can cause serious harm. See [Ethical Guidelines](#ethical-guidelines) below.
+> ⚠️ **IMPORTANT ETHICAL NOTICE**: This software is intended for educational, research, and legitimate creative purposes only. Misuse of deepfake technology can cause serious harm. **We are not responsible for end-user actions.** Misuse of this software may result in legal consequences including criminal charges in many jurisdictions.
 
 ---
 
-## 🎯 Overview
+## 🎯 Pipeline Components & Function
 
-This pipeline combines three powerful tools:
+This pipeline combines several powerful tools:
 
 1. **[Deep-Live-Cam](./Deep-Live-Cam/)** - Real-time face swapping with single image input
 2. **[Seed-VC](./seed-vc/)** - Zero-shot voice cloning and conversion
@@ -21,34 +21,11 @@ Together, these tools enable you to:
 - Create deepfakes for entertainment, animation, and creative content
 
 ---
-
-## 🚨 Ethical Guidelines
-
-### Before You Use This Software
-
-By using this deepfake pipeline, you agree to:
-
-1. **Obtain Consent**: Always get explicit permission from individuals whose face or voice you're using
-2. **Disclose Deepfakes**: Clearly label any deepfake content when sharing publicly
-3. **Respect Privacy**: Never use this tool to create non-consensual content
-4. **Follow Laws**: Comply with all local, national, and international laws regarding synthetic media
-5. **No Harmful Content**: Do not create content involving nudity, violence, misinformation, or harassment
-
-### Legal Responsibility
-
-**We are not responsible for end-user actions.** Misuse of this software may result in legal consequences including criminal charges in many jurisdictions.
-
----
-
 ## 🎬 Features
 
 ### Real-Time Face Swapping
 - **Single Image Input**: Swap faces using just one photo
 - **Live Webcam Mode**: Real-time face replacement for video calls, streaming
-- **Multiple Face Mapping**: Apply different faces to multiple people simultaneously
-- **Mouth Mask Mode**: Retain original mouth movements for accuracy
-- **GPU Accelerated**: Support for NVIDIA CUDA, AMD DirectML, Apple Silicon
-
 ### Voice Cloning & Conversion
 - **Zero-Shot Voice Cloning**: Clone a voice from 1-30 seconds of reference audio
 - **Real-Time Voice Conversion**: ~300ms latency for live applications
@@ -77,20 +54,9 @@ By using this deepfake pipeline, you agree to:
 - 4GB+ GPU (for real-time processing)
 - FFmpeg
 
-**Recommended:**
-- Python 3.11
-- Conda/Miniconda
-- 16GB+ RAM
-- NVIDIA GPU with 8GB+ VRAM (RTX 3060 or better)
-- Fast SSD storage
-
 ### Quick Start
 
 1. **Install Conda (if not already installed):**
-```bash
-# Download Miniconda from https://docs.conda.io/en/latest/miniconda.html
-# Or use existing Anaconda/Miniconda installation
-```
 
 2. **Clone this repository:**
 ```bash
@@ -100,22 +66,12 @@ cd deep-fake-pipeline
 
 3. **Install FFmpeg:**
 ```bash
-# Ubuntu/Debian
-sudo apt install ffmpeg
-
-# macOS
-brew install ffmpeg
-
-# Windows
-# Download from https://ffmpeg.org/download.html
-# Or use: conda install -c conda-forge ffmpeg
+conda install conda-forge::ffmpeg
 ```
 
 4. **Install Deep-Live-Cam:**
 ```bash
 cd Deep-Live-Cam
-
-# Create conda environment
 conda create -n deep-live-cam python=3.11
 conda activate deep-live-cam
 
@@ -130,15 +86,10 @@ pip install -r requirements.txt
 
 5. **Install Seed-VC:**
 ```bash
-cd ../seed-vc
-
-# Create conda environment
+cd seed-vc
 conda create -n seed-vc python=3.11
 conda activate seed-vc
-
-# Install dependencies
 pip install -r requirements.txt
-
 # Models auto-download on first run
 ```
 
@@ -161,27 +112,10 @@ python app.py --enable-v1 --enable-v2
 ```bash
 # For Deep-Live-Cam
 conda activate deep-live-cam
-pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu128
+python -m pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130
 pip install onnxruntime-gpu==1.21.0
 
 # Seed-VC will use CUDA automatically if PyTorch CUDA is available
-```
-
-#### Apple Silicon (M1/M2/M3)
-```bash
-# For Deep-Live-Cam
-conda activate deep-live-cam
-pip install onnxruntime-silicon==1.13.1
-
-# Note: Seed-VC works on Apple Silicon with the standard installation
-# For optimal performance, ensure you're using the native ARM64 Python
-```
-
-#### AMD DirectML (Windows)
-```bash
-# For Deep-Live-Cam on AMD GPUs
-conda activate deep-live-cam
-pip install onnxruntime-directml==1.21.0
 ```
 
 See individual tool READMEs for detailed GPU setup instructions and troubleshooting.
@@ -274,14 +208,7 @@ python main.py \
 
 **For singing:**
 ```bash
-conda activate seed-vc
-python main.py \
-  --seedvc-dir ../seed-vc \
-  --input singing_video.mp4 \
-  --target singer_reference.wav \
-  --output converted.mp4 \
   --singing \
-  --diffusion-steps 40 \
   --f0-condition True
 ```
 
@@ -320,7 +247,7 @@ For live streaming/video calls with both face and voice conversion:
 1. **Start Deep-Live-Cam (Terminal 1):**
 ```bash
 cd Deep-Live-Cam
-conda activate deep-live-cam
+conda activate dlc
 python run.py --execution-provider cuda
 ```
    - Select your source face image
@@ -330,7 +257,7 @@ python run.py --execution-provider cuda
 2. **Start Seed-VC Real-Time Conversion (Terminal 2):**
 ```bash
 cd seed-vc
-conda activate seed-vc
+conda activate seedvc
 python real-time-gui.py
 ```
    - Set **Input Device**: Your microphone
@@ -389,35 +316,11 @@ Note: OBS video delay matches Seed-VC audio delay for perfect sync!
 
 ---
 
-## 📚 Documentation
-
-Each tool has detailed documentation:
-
-- **Deep-Live-Cam**: [Deep-Live-Cam/README.md](./Deep-Live-Cam/README.md)
-  - Face swap parameters
-  - GPU acceleration setup
-  - Advanced features (face mapping, mouth mask)
-  
-- **Seed-VC**: [seed-vc/README.md](./seed-vc/README.md)
-  - Model configurations (V1 vs V2)
-  - Real-time conversion parameters
-  - Fine-tuning on custom voices
-  
-- **Video-Voice-Surgeon**: [video-voice-surgeon/README.md](./video-voice-surgeon/README.md)
-  - Video processing workflow
-  - Parameter optimization
-  - Troubleshooting
-
----
-
 ## 🎛️ Performance Tips
 
 ### Real-Time Face Swapping
 - **GPU Essential**: CPU mode too slow for real-time
 - **Resolution**: Lower webcam resolution for better FPS
-- **Many Faces**: Disable if only swapping one face
-- **Face Enhancer**: Improves quality but reduces speed
-
 ### Real-Time Voice Conversion
 - **Model Choice**: Use `seed-uvit-xlsr-tiny` for lowest latency
 - **Diffusion Steps**: 4-10 for real-time, 30+ for quality
@@ -430,7 +333,6 @@ Each tool has detailed documentation:
   - Fast: `--diffusion-steps 15 --fp16 True`
   - Balanced: `--diffusion-steps 30`
   - High Quality: `--diffusion-steps 50 --f0-condition True`
-- **Storage**: Ensure 2-3x input video size free space
 
 ---
 
@@ -440,13 +342,8 @@ Each tool has detailed documentation:
 
 **Conda Environment Management**
 ```bash
-# List all conda environments
 conda info --envs
-
-# Activate an environment
 conda activate deep-live-cam  # or seed-vc
-
-# Deactivate current environment
 conda deactivate
 
 # Remove an environment if you need to reinstall
@@ -465,11 +362,6 @@ conda env remove -n seed-vc
 - Reduce batch size
 - Close other GPU applications
 - Lower diffusion steps
-
-**Audio/Video Sync Issues**
-- Original video must have stable audio
-- Use higher quality input videos
-- Try different encoding settings
 
 **Real-Time Conversion Stuttering**
 - Reduce diffusion steps to 4-6
@@ -507,44 +399,5 @@ This pipeline combines multiple open-source projects:
 - **InsightFace models**: Non-commercial research purposes only
 
 **Important**: The `inswapper` model used by Deep-Live-Cam is for non-commercial research purposes only.
-
----
-
-## ⚖️ Disclaimer
-
-This software is provided "as is" for educational and research purposes. The developers:
-
-- Do not condone malicious use of deepfake technology
-- Are not responsible for user-generated content
-- May discontinue the project if required by law
-- Reserve the right to add watermarks or other safeguards
-
-### Legal Warnings
-
-Creating and distributing deepfakes without consent may be illegal in your jurisdiction. Potential violations include:
-- Identity theft and fraud
-- Defamation and harassment  
-- Copyright infringement
-- Privacy violations
-- Election interference (in some countries)
-
-**Always consult legal counsel before creating synthetic media of real people.**
-
----
-
-## 🚧 Known Limitations
-
-- Face swapping quality depends on angle, lighting, and occlusion
-- Voice cloning requires clean reference audio (no background noise)
-- Real-time processing requires powerful GPU
-
----
-
-### Key Links
-
-- **Deep-Live-Cam Models**: [Hugging Face](https://huggingface.co/hacksider/deep-live-cam)
-- **Seed-VC Models**: [Hugging Face](https://huggingface.co/Plachta/Seed-VC)
-- **OBS Studio**: [obsproject.com](https://obsproject.com/)
-- **VB-CABLE**: [vb-audio.com](https://vb-audio.com/Cable/)
 
 
